@@ -18,7 +18,6 @@ public:
   	TokenType type;
     std::string value;
 
-    Token();
     Token(int type, std::string value);
 
     Token(TokenType type, std::string value);
