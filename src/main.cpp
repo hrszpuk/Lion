@@ -8,5 +8,16 @@ int main(int argc, char *argv[]) {
     for (Token token : tokens) {
         std::cout << token.toString() << std::endl;
     }
+
+    std::string s = "test";
+
+    // lambda to reverse a string
+    std::string reverse = [&s] {
+        std::string reversed;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            reversed += s[i];
+        }
+        return reversed;
+    }();
     return 0;
 }
