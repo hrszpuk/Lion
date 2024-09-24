@@ -1,0 +1,39 @@
+name: C++ CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev  # Adjust based on your branching strategy
+  pull_request:
+    branches:
+      - main
+      - dev  # Adjust based on your branching strategy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v1
+        with:
+          cmake-version: '3.28.1'  # Specify your CMake version
+
+      - name: Install GTest
+        run: sudo apt-get install libgtest-dev && sudo apt-get install cmake # Ensure GTest is installed
+
+      - name: Build the project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure  # Run tests and show output on failure
