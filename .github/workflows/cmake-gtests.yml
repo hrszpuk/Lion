@@ -12,12 +12,12 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}  # Use the OS defined in the matrix
+    runs-on: ${{ matrix.os }} 
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]  # Define the operating systems
-        build_type: [Debug, Release]  # Define the build types
+        os: [ubuntu-latest, windows-latest, macos-latest]  
+        build_type: [Release] 
 
     steps:
       - name: Checkout code
@@ -37,6 +37,23 @@ jobs:
             sudo cmake .
             sudo make
             sudo cp *.a /usr/lib
+          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            # For Windows, use vcpkg to install GTest
+            git clone https://github.com/microsoft/vcpkg.git
+            cd vcpkg
+            ./bootstrap-vcpkg.sh
+            ./vcpkg install gtest
+            ./vcpkg integrate install
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            # For macOS, use Homebrew to install GTest
+            brew install googletest
+            # Make sure to link the libraries
+            cd /usr/local/Cellar/googletest
+            mkdir build
+            cd build
+            cmake ..
+            make
+            sudo make install
           fi
 
       - name: Build the project
