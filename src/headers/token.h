@@ -58,6 +58,7 @@ class Token {
 public:
   	TokenType type;
     std::string value;
+    std::span<size_t> span;
 
     Token(TokenType type, std::string value);
 
