@@ -63,7 +63,7 @@ Token Lexer::lexInteger() {
 
 void Lexer::advance() {
     this->pos++;
-    if (this->pos > this->text.length() - 1) {
+    if (this->pos > static_cast<int>(this->text.length()) - 1) {
         this->currentChar = '\0';
     } else {
         this->currentChar = this->text[this->pos];
