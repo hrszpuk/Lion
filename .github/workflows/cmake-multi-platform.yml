@@ -49,7 +49,9 @@ jobs:
     - name: Cache GTest
       uses: actions/cache@v3
       with:
-        path: ${{ steps.strings.outputs.gstatic-dir }}  # Update this path based on where GTest is built or installed
+        path: ${{ runner.os == 'windows-latest' && github.workspace }}/vcpkg/installed/x64-windows || 
+              ${{ runner.os == 'ubuntu-latest' && github.workspace }}/usr/lib/libgtest*.a || 
+              ${{ runner.os == 'macos-latest' && '/usr/local/Cellar/googletest/*' }}
         key: gtest-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt') }}
         restore-keys: |
           gtest-${{ runner.os }}-
@@ -71,7 +73,6 @@ jobs:
           brew update
           brew install googletest
         fi
-
 
     - name: Configure CMake
       run: >
