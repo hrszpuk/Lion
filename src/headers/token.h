@@ -60,11 +60,15 @@ public:
     std::string value;
     std::span<size_t> span;
 
-    Token(TokenType type, std::string value);
+    explicit Token(const TokenType type = TokenType::UNKNOWN, std::string value = "", std::span<size_t> span = {})
+        : type(type), value(value), span(span) {
+        if (value.empty()) throw std::invalid_argument("Token value cannot be empty");
+        if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("Invalid token type");
+    }
 
-    TokenType getType();
-    std::string getValue();
-    std::string toString();
+    [[nodiscard]] TokenType getType() const;
+    [[nodiscard]] std::string getValue() const;
+    [[nodiscard]] std::string toString() const;
 };
 
 #endif //TOKEN_H
