@@ -37,3 +37,7 @@ foreach(test_file ${TEST_FILES})
     target_link_libraries(${test_name} ${GTEST_LIBRARIES} pthread)
     add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
