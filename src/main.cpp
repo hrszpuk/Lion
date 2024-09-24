@@ -1,23 +1,33 @@
+#include <fstream>
 #include <iostream>
 #include "headers/lexer.h"
 
+
 int main(int argc, char *argv[]) {
-    std::string text = "1 + 2 * 3";
-    Lexer lexer(text);
-    std::vector<Token> tokens = lexer.lex();
-    for (Token token : tokens) {
-        std::cout << token.toString() << std::endl;
+
+    if (argc != 2 || argv[1] == nullptr) {
+        std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
+        return EXIT_FAILURE;
     }
 
-    std::string s = "test";
+    std::string filename = argv[1];
 
-    // lambda to reverse a string
-    std::string reverse = [&s] {
-        std::string reversed;
-        for (int i = s.length() - 1; i >= 0; i--) {
-            reversed += s[i];
-        }
-        return reversed;
-    }();
+    try {
+        std::ifstream file(filename);
+        file.exceptions(std::ifstream::failbit | std::ifstream::badbit);  // Enable exceptions
+
+        std::string file_contents((std::istreambuf_iterator(file)),
+                               std::istreambuf_iterator<char>());
+
+        Lexer lexer(file_contents);
+        lexer.lex();
+
+        file.close();
+    } catch (const std::ifstream::failure& e) {
+        std::cerr << "Error: Exception occurred while reading file: " << e.what() << std::endl;
+    }
+
+
+
     return 0;
 }
