@@ -1,9 +1,15 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <span>
+#include <stdexcept>
 #include <string>
+#include <utility>
 
+#define TOKEN_TYPE_LENGTH 28
 enum class TokenType {
+    UNKNOWN,
+
     // Keywords
     LET_KW,
     PRINT_KW,
