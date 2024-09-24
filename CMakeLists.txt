@@ -24,5 +24,16 @@ set(HEADERS
 
 add_executable(Lion ${SOURCES} ${HEADERS})
 
-        src/token.cpp
-        src/headers/token.h)
+# Google Test setup
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+file(GLOB_RECURSE TEST_FILES tests/test_*.cpp)
+
+foreach(test_file ${TEST_FILES})
+    get_filename_component(test_name ${test_file} NAME_WE)
+    add_executable(${test_name} ${test_file} src/lexer.cpp src/token.cpp)
+    target_link_libraries(${test_name} ${GTEST_LIBRARIES} pthread)
+    add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()
