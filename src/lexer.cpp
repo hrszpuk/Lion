@@ -58,7 +58,7 @@ Token Lexer::lexInteger() {
         result += this->currentChar;
         this->advance();
     }
-    return Token(TokenType::INTEGER, result);
+    return Token(TokenType::INTEGER_LITERAL, result);
 }
 
 void Lexer::advance() {
