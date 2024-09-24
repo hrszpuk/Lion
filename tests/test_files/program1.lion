@@ -1,0 +1,4 @@
+print("Hello, World")
+
+let message = input("I will echo: ")
+print(message)
