@@ -1,4 +1,4 @@
-name: CMake GTest Build Multi-platform
+name: C++ CI
 
 on:
   push:
@@ -12,7 +12,12 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}  # Use the OS defined in the matrix
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]  # Define the operating systems
+        build_type: [Debug, Release]  # Define the build types
 
     steps:
       - name: Checkout code
@@ -24,16 +29,24 @@ jobs:
           cmake-version: '3.28.1'
 
       - name: Install GTest
-        run: sudo apt-get install libgtest-dev && sudo apt-get install cmake
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y libgtest-dev
+            cd /usr/src/gtest
+            sudo cmake .
+            sudo make
+            sudo cp *.a /usr/lib
+          fi
 
       - name: Build the project
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
           make
 
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure  # Run tests and show output on failure
+          ctest --output-on-failure
