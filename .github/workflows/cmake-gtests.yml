@@ -1,18 +1,18 @@
-name: C++ CI
+name: CMake GTest Build Multi-platform
 
 on:
   push:
     branches:
       - main
-      - dev  # Adjust based on your branching strategy
+      - dev
   pull_request:
     branches:
       - main
-      - dev  # Adjust based on your branching strategy
+      - dev
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -21,10 +21,10 @@ jobs:
       - name: Set up CMake
         uses: jwlawson/actions-setup-cmake@v1
         with:
-          cmake-version: '3.28.1'  # Specify your CMake version
+          cmake-version: '3.28.1'
 
       - name: Install GTest
-        run: sudo apt-get install libgtest-dev && sudo apt-get install cmake # Ensure GTest is installed
+        run: sudo apt-get install libgtest-dev && sudo apt-get install cmake
 
       - name: Build the project
         run: |
