@@ -4,21 +4,54 @@
 #include <string>
 
 enum class TokenType {
-    INTEGER,        // [0-9]+
-    PLUS,           // +
-    MINUS,          // -
-    MUL,            // *
-    DIV,            // /
-    LPAREN,         // (
-    RPAREN          // )
+    // Keywords
+    LET_KW,
+    PRINT_KW,
+    INPUT_KW,
+    IF_KW,
+    ELSE_KW,
+
+    // Literal
+    STRING_LITERAL,
+    INTEGER_LITERAL,
+
+    // Type keywords
+    I32_KW,
+    U32_KW,
+    STRING_KW,
+
+    // Arithmetic operators
+    PLUS,
+    MINUS,
+    MUL,
+    DIV,
+
+    // Logical operators
+    AND,
+    OR,
+    NOT,
+
+    // Comparison operators
+    GREATER_THAN,
+    LESS_THAN,
+    EQUAL_TO,
+    GREATER_THAN_OR_EQUAL_TO,
+    LESS_THAN_OR_EQUAL_TO,
+
+    // Braces, parameters, and brackets
+    LBRACE,
+    RBRACE,
+    LPAREN,
+    RPAREN,
+
+    // Assignment operator
+    EQUALS
 };
 
 class Token {
 public:
   	TokenType type;
     std::string value;
-
-    Token(int type, std::string value);
 
     Token(TokenType type, std::string value);
 
