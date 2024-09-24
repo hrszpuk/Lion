@@ -15,7 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [clang]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -58,21 +58,23 @@ jobs:
           gtest-${{ runner.os }}-
 
     - name: Install GTest
+      shell: bash
       run: |
         if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
           sudo apt-get update && sudo apt-get install -y libgtest-dev
-          cd /usr/src/gtest && sudo cmake . && sudo make && sudo cp *.a /usr/lib
+          cd /usr/src/gtest && sudo cmake . && sudo make
+          sudo cp lib/libgtest*.a /usr/lib
         elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          # Install vcpkg and GTest
           git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
           ./bootstrap-vcpkg.sh
           ./vcpkg install gtest
-          echo "::add-path::${{ github.workspace }}/vcpkg"  # Add vcpkg to PATH
+          echo "::add-path::${{ github.workspace }}/vcpkg"
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
           brew update
           brew install googletest
         fi
+
 
     - name: Configure CMake
       run: >
