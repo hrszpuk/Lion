@@ -9,9 +9,20 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(Lion
-    src/main.cpp
+include_directories(src/headers)
+
+set(SOURCES
+        src/main.cpp
         src/lexer.cpp
+        src/token.cpp
+)
+
+set(HEADERS
         src/headers/lexer.h
+        src/headers/token.h
+)
+
+add_executable(Lion ${SOURCES} ${HEADERS})
+
         src/token.cpp
         src/headers/token.h)
