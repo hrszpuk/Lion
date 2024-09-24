@@ -49,11 +49,11 @@ jobs:
             brew install googletest
             # Make sure to link the libraries
             cd /usr/local/Cellar/googletest
-            mkdir build
-            cd build
-            cmake ..
-            make
-            sudo make install
+            #mkdir build
+            #cd build
+            #cmake ..
+            #make
+            #sudo make install
           fi
 
       - name: Build the project
