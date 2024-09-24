@@ -1,0 +1,11 @@
+let target = 7
+let guess: i32
+
+print("Guess the number between 1 and 10:")
+guess = input("Your guess: ")
+
+if guess == target {
+    print("Congratulations! You guessed correctly.")
+} else {
+    print("Try again!")
+}

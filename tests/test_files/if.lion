@@ -1,0 +1,10 @@
+let x = 100
+let y = false
+
+if y {
+    y = !y
+}
+
+if !y {
+    x = x + 1
+}

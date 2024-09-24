@@ -1,0 +1,39 @@
+name: CMake GTest Build Multi-platform
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v1
+        with:
+          cmake-version: '3.28.1'
+
+      - name: Install GTest
+        run: sudo apt-get install libgtest-dev && sudo apt-get install cmake
+
+      - name: Build the project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure  # Run tests and show output on failure

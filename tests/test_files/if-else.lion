@@ -1,0 +1,10 @@
+let x = 100
+let y = false
+
+if y {
+    y = !y
+} else if (x > 80 && (y || x > 100)) {
+    x = x + 1
+} else {
+    y = !y
+}
