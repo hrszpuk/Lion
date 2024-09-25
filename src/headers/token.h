@@ -83,7 +83,12 @@ class Token {
 protected:
   	TokenType type;
     std::string value;
-    std::span<size_t> span;
+    Position position;
+
+    static void check_args(const TokenType type, std::string value) {
+        if (value.empty()) throw std::invalid_argument("empty string");
+        if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("invalid token type");
+    }
 
     explicit Token(const TokenType type = TokenType::UNKNOWN, std::string value = "", std::span<size_t> span = {})
         : type(type), value(value), span(span) {
