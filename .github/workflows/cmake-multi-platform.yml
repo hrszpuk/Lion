@@ -49,8 +49,7 @@ jobs:
     - name: Cache GTest
       uses: actions/cache@v3
       with:
-        path: ${{ runner.os == 'windows-latest' && github.workspace }}/vcpkg/installed/x64-windows || 
-              ${{ runner.os == 'ubuntu-latest' && github.workspace }}/usr/lib/libgtest*.a || 
+        path: ${{ runner.os == 'ubuntu-latest' && github.workspace }}/usr/lib/libgtest*.a || 
               ${{ runner.os == 'macos-latest' && '/usr/local/Cellar/googletest/*' }}
         key: gtest-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt') }}
         restore-keys: |
@@ -63,12 +62,6 @@ jobs:
           sudo apt-get update && sudo apt-get install -y libgtest-dev
           cd /usr/src/gtest && sudo cmake . && sudo make
           sudo cp lib/libgtest*.a /usr/lib
-        elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          git clone https://github.com/microsoft/vcpkg.git
-          cd vcpkg
-          ./bootstrap-vcpkg.sh
-          ./vcpkg install gtest
-          echo "::add-path::${{ github.workspace }}/vcpkg"
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
           brew update
           brew install googletest
