@@ -49,6 +49,37 @@ TEST(TokenTest, InvalidTokenTypeTest) {
     }, std::invalid_argument);
 }
 
+// Test to verify line and column are not 0
+TEST(PositionTest, InvalidLineColumnTest) {
+    EXPECT_THROW({
+        Token t(TokenType::LET_KW, "let", Position{0, 0, 0, 1});
+    }, std::invalid_argument);
+}
+
+// Test to verify end is greater than start
+TEST(PositionTest, InvalidStartEndTest) {
+    EXPECT_THROW({
+        Token t(TokenType::LET_KW, "let", Position{1, 1, 10, 0});
+    }, std::invalid_argument);
+}
+
+// Test to verify end is greater than start
+TEST(PositionTest, InvalidEqualStartEndTest) {
+    EXPECT_THROW({
+        Token t(TokenType::LET_KW, "let", Position{1, 1, 0, 0});
+    }, std::invalid_argument);
+}
+
+// Test to verify position getters work
+TEST(PositionTest, GetterTest) {
+    const Position p(1, 1, 10, 13);
+
+    EXPECT_EQ(p.getLine(), 1);
+    EXPECT_EQ(p.getColumn(), 1);
+    EXPECT_EQ(p.getStart(), 10);
+    EXPECT_EQ(p.getEnd(), 13);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
