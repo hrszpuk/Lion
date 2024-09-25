@@ -15,11 +15,14 @@ set(SOURCES
         src/main.cpp
         src/lexer.cpp
         src/token.cpp
+        src/parser.cpp
 )
 
 set(HEADERS
         src/headers/lexer.h
         src/headers/token.h
+        src/headers/parser.h
+        src/headers/node.h
 )
 
 add_executable(Lion ${SOURCES} ${HEADERS})
