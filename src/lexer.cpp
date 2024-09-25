@@ -11,7 +11,8 @@ Lexer::Lexer(std::string text) {
 
 std::vector<Token> Lexer::lex() {
     while (this->currentChar != '\0') {
-        if (this->currentChar == ' ') {
+        //std::cout << this->currentChar << " " << static_cast<int>(this->currentChar) << std::endl;
+        if (this->currentChar == ' ' || this->currentChar == '\n' || this->currentChar == '\t') {
             this->skipWhitespace();
             continue;
         }
@@ -71,7 +72,7 @@ void Lexer::advance() {
 }
 
 void Lexer::skipWhitespace() {
-    if (this->currentChar == ' ') {
+    while (this->currentChar == ' ' || this->currentChar == '\n' || this->currentChar == '\t') {
         this->advance();
     }
 }
