@@ -6,7 +6,6 @@
 #include <string>
 #include <utility>
 
-#define TOKEN_TYPE_LENGTH 28
 enum class TokenType {
     UNKNOWN,
 
