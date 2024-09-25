@@ -53,6 +53,10 @@ std::vector<Token> Lexer::lex() {
                 this->tokens.emplace_back(TokenType::RPAREN, ")");
                 this->advance();
                 break;
+            case '=':
+                this->tokens.emplace_back(TokenType::EQUALS, "=");
+                this->advance();
+            break;
             default:
                 this->error();
                 break;
