@@ -80,7 +80,7 @@ public:
 };
 
 class Token {
-public:
+protected:
   	TokenType type;
     std::string value;
     std::span<size_t> span;
@@ -90,10 +90,12 @@ public:
         if (value.empty()) throw std::invalid_argument("Token value cannot be empty");
         if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("Invalid token type");
     }
+    Token() = default;
 
     [[nodiscard]] TokenType getType() const;
     [[nodiscard]] std::string getValue() const;
     [[nodiscard]] std::string toString() const;
+    [[nodiscard]] Position getPosition() const;
 };
 
 #endif //TOKEN_H
