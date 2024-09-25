@@ -108,20 +108,22 @@ inline std::string TokenTypeString[] = {
 class Position {
 protected:
     uint line;
-    uint column;
+    uint columnStart;
+    uint columnEnd;
     uint start; // Start position of the token (raw)
     uint end;   // End position of the token (raw)
 
 public:
     Position() = default;
-    Position(const uint line, const uint column, const uint start, const uint end)
-        : line(line), column(column), start(start), end(end) {
-        if (line == 0 || column == 0) throw std::invalid_argument("Invalid Line/Column Position");
+    Position(const uint line, const uint columnStart, const uint columnEnd, const uint start, const uint end)
+        : line(line), columnStart(columnStart), columnEnd(columnEnd), start(start), end(end) {
+        if (line == 0 || columnStart == 0 || columnEnd == 0) throw std::invalid_argument("Invalid Line/Column Position");
         if (start >= end) throw std::invalid_argument("Invalid Start/End Position");
     };
 
     [[nodiscard]] uint getLine() const;
-    [[nodiscard]] uint getColumn() const;
+    [[nodiscard]] uint getColumnStart() const;
+    [[nodiscard]] uint getColumnEnd() const;
     [[nodiscard]] uint getStart() const;
     [[nodiscard]] uint getEnd() const;
 
