@@ -127,6 +127,8 @@ public:
     [[nodiscard]] uint getStart() const;
     [[nodiscard]] uint getEnd() const;
 
+    [[nodiscard]] std::string toString() const;
+
     bool operator==(const Position &other) const; // This is used for test cases
 };
 

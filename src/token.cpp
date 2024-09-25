@@ -1,5 +1,7 @@
 #include "headers/token.h"
 
+#include <format>
+
 TokenType Token::getType() const {
     return this->type;
 }
@@ -20,8 +22,12 @@ uint Position::getLine() const {
     return this->line;
 }
 
-uint Position::getColumn() const {
-    return this->column;
+uint Position::getColumnStart() const {
+    return this->columnStart;
+}
+
+uint Position::getColumnEnd() const {
+    return this->columnEnd;
 }
 
 uint Position::getStart() const {
@@ -32,9 +38,14 @@ uint Position::getEnd() const {
     return this->end;
 }
 
+std::string Position::toString() const {
+    return std::format("({}:{}-{})[{}..{}]", this->line, this->columnStart, this->columnEnd, this->start, this->end);
+}
+
 bool Position::operator==(const Position &other) const {
     return this->line == other.line
-        && this->column == other.column
+        && this->columnStart == other.columnStart
+        && this->columnEnd == other.columnEnd
         && this->start == other.start
         && this->end == other.end;
 }
