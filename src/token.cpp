@@ -11,3 +11,30 @@ std::string Token::getValue() const {
 std::string Token::toString() const {
     return "Token(" + std::to_string(static_cast<int>(this->type)) + ", " + this->value + ")";
 }
+
+Position Token::getPosition() const {
+    return this->position;
+}
+
+uint Position::getLine() const {
+    return this->line;
+}
+
+uint Position::getColumn() const {
+    return this->column;
+}
+
+uint Position::getStart() const {
+    return this->start;
+}
+
+uint Position::getEnd() const {
+    return this->end;
+}
+
+bool Position::operator==(const Position &other) const {
+    return this->line == other.line
+        && this->column == other.column
+        && this->start == other.start
+        && this->end == other.end;
+}
