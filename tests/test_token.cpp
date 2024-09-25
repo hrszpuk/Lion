@@ -10,28 +10,22 @@ TEST(TokenTest, ValidConstructorTest) {
     EXPECT_EQ(t.getValue(), "!");
 }
 
-// Test to verify the default constructor initializes correctly
-TEST(TokenTest, DefaultConstructorTest) {
-    EXPECT_THROW({
-        Token t;
-    }, std::invalid_argument);
-}
-
 // Test to verify the getters return the expected values
 TEST(TokenTest, GettersTest) {
-    const Token t(TokenType::LET_KW, std::string("let"));
+    const Position p {1, 1, 2, 3};
+    const Token t(TokenType::LET_KW, std::string("let"), p);
 
     EXPECT_EQ(t.getType(), TokenType::LET_KW);
     EXPECT_EQ(t.getValue(), "let");
+    EXPECT_EQ(t.getPosition(), p);
 }
 
-// Test to verify span initialization (this requires an actual range)
+// Test to verify complete constructor initialises correctly
 TEST(TokenTest, SpanInitializationTest) {
-    size_t arr[] = {0, 1, 2};
-    const std::span<size_t> sp(arr, 3);
-    const Token t(TokenType::LET_KW, "let", sp);
+    const Position pos(1, 1, 10, 13);
+    const Token t(TokenType::LET_KW, std::string("let"), pos);
 
-    EXPECT_EQ(t.span.size(), 3);
+    EXPECT_EQ(t.getPosition(), pos);
 }
 
 // Test for checking string representation
