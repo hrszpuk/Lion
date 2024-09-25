@@ -90,10 +90,13 @@ protected:
         if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("invalid token type");
     }
 
-    explicit Token(const TokenType type = TokenType::UNKNOWN, std::string value = "", std::span<size_t> span = {})
-        : type(type), value(value), span(span) {
-        if (value.empty()) throw std::invalid_argument("Token value cannot be empty");
-        if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("Invalid token type");
+public:
+    explicit Token(const TokenType type, std::string value): type(type), value(value), position() {
+        check_args(type, value);
+    }
+
+    explicit Token(const TokenType type, std::string value, Position pos): type(type), value(value), position(pos) {
+        check_args(type, value);
     }
     Token() = default;
 
