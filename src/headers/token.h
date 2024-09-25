@@ -21,6 +21,8 @@ enum class TokenType {
     STRING_LITERAL,
     INTEGER_LITERAL,
 
+    IDENTIFIER,
+
     // Type keywords
     I32_KW,
     U32_KW,
