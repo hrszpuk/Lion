@@ -20,6 +20,14 @@ std::vector<Token> Lexer::lex() {
             this->tokens.push_back(this->lexInteger());
             continue;
         }
+        if (isalpha(this->currentChar)) {
+            this->tokens.push_back(this->lexIdentifier());
+            continue;
+        }
+        if (this->currentChar == '"') {
+            this->tokens.push_back(this->lexString());
+            continue;
+        }
         switch (this->currentChar) {
             case '+':
                 this->tokens.emplace_back(TokenType::PLUS, "+");
@@ -54,12 +62,32 @@ std::vector<Token> Lexer::lex() {
 }
 
 Token Lexer::lexInteger() {
-    std::string result = "";
+    std::string result;
     while (this->currentChar != '\0' && isdigit(this->currentChar)) {
         result += this->currentChar;
         this->advance();
     }
     return Token(TokenType::INTEGER_LITERAL, result);
+}
+
+Token Lexer::lexString() {
+    std::string result;
+    this->advance(); // Skip first "
+    while (this->currentChar != '"') {
+        result += this->currentChar;
+        this->advance();
+    }
+    this->advance(); // Skip second "
+    return Token(TokenType::STRING_LITERAL, result);
+}
+
+Token Lexer::lexIdentifier() {
+    std::string result;
+    while (isalnum(this->currentChar) || this->currentChar == '_') {
+        result += this->currentChar;
+        this->advance();
+    }
+    return Token(TokenType::IDENTIFIER, result);
 }
 
 void Lexer::advance() {
