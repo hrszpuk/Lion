@@ -78,6 +78,6 @@ void Lexer::skipWhitespace() {
 }
 
 void Lexer::error() {
-    std::cout << "Invalid character" << std::endl;
-    this->pos++;
+    std::cout << "Invalid character: " << this->text[this->pos] << std::endl;
+    this->advance();
 }
