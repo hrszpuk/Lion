@@ -15,14 +15,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release]
-        c_compiler: [clang]
+        cpp_compiler: [clang++]
         include:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
           - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+            c_compiler: g++
+            cpp_compiler: g++
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
@@ -37,47 +37,52 @@ jobs:
             c_compiler: gcc
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set reusable strings
-      id: strings
-      shell: bash
-      run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-        echo "gtest-dir=${{ github.workspace }}/gtest" >> "$GITHUB_OUTPUT"
+      - name: Set reusable strings
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+          echo "gtest-dir=${{ github.workspace }}/gtest" >> "$GITHUB_OUTPUT"
 
-    - name: Cache GTest
-      uses: actions/cache@v3
-      with:
-        path: ${{ runner.os == 'ubuntu-latest' && github.workspace }}/usr/lib/libgtest*.a || 
-              ${{ runner.os == 'macos-latest' && '/usr/local/Cellar/googletest/*' }}
-        key: gtest-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt') }}
-        restore-keys: |
-          gtest-${{ runner.os }}-
+      - name: Cache GTest
+        uses: actions/cache@v3
+        with:
+          path: ${{ runner.os == 'ubuntu-latest' && github.workspace }}/usr/lib/libgtest*.a ||
+            ${{ runner.os == 'macos-latest' && '/usr/local/Cellar/googletest/*' }}
+          key: gtest-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt') }}
+          restore-keys: |
+            gtest-${{ runner.os }}-
 
-    - name: Install GTest
-      shell: bash
-      run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          sudo apt-get update && sudo apt-get install -y libgtest-dev
-          cd /usr/src/gtest && sudo cmake . && sudo make
-          sudo cp lib/libgtest*.a /usr/lib
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-          brew update
-          brew install googletest
-        fi
+      - name: Install GTest
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y libgtest-dev
+            cd /usr/src/gtest
+            sudo cmake . && sudo make
+            sudo cp lib/libgtest*.a /usr/lib
+          fi
 
-    - name: Configure CMake
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
+      - name: Install Required Compilers
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -y clang-18
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 90
 
-    - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -S ${{ github.workspace }}
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: ctest --build-config ${{ matrix.build_type }}
+      - name: Build
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+      - name: Test
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        run: ctest --build-config ${{ matrix.build_type }}
