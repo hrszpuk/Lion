@@ -55,6 +55,56 @@ enum class TokenType {
     EQUALS
 };
 
+// String representation of TokenType
+inline std::string TokenTypeString[] = {
+    "UNKNOWN",
+
+    // Keywords
+    "LET_KW",
+    "PRINT_KW",
+    "INPUT_KW",
+    "IF_KW",
+    "ELSE_KW",
+
+    // Literal
+    "STRING_LITERAL",
+    "INTEGER_LITERAL",
+
+    "IDENTIFIER",
+
+    // Type keywords
+    "I32_KW",
+    "U32_KW",
+    "STRING_KW",
+
+    // Arithmetic operators
+    "PLUS",
+    "MINUS",
+    "MUL",
+    "DIV",
+
+    // Logical operators
+    "AND",
+    "OR",
+    "NOT",
+
+    // Comparison operators
+    "GREATER_THAN",
+    "LESS_THAN",
+    "EQUAL_TO",
+    "GREATER_THAN_OR_EQUAL_TO",
+    "LESS_THAN_OR_EQUAL_TO",
+
+    // Braces, parameters, and brackets
+    "LBRACE",
+    "RBRACE",
+    "LPAREN",
+    "RPAREN",
+
+    // Assignment operator
+    "EQUALS"
+};
+
 class Position {
 protected:
     uint line;
