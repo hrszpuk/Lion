@@ -56,6 +56,29 @@ enum class TokenType {
     EQUALS
 };
 
+class Position {
+protected:
+    uint line;
+    uint column;
+    uint start; // Start position of the token (raw)
+    uint end;   // End position of the token (raw)
+
+public:
+    Position() = default;
+    Position(const uint line, const uint column, const uint start, const uint end)
+        : line(line), column(column), start(start), end(end) {
+        if (line == 0 || column == 0) throw std::invalid_argument("Invalid Line/Column Position");
+        if (start >= end) throw std::invalid_argument("Invalid Start/End Position");
+    };
+
+    [[nodiscard]] uint getLine() const;
+    [[nodiscard]] uint getColumn() const;
+    [[nodiscard]] uint getStart() const;
+    [[nodiscard]] uint getEnd() const;
+
+    bool operator==(const Position &other) const; // This is used for test cases
+};
+
 class Token {
 public:
   	TokenType type;
