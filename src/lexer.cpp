@@ -22,27 +22,27 @@ std::vector<Token> Lexer::lex() {
         }
         switch (this->currentChar) {
             case '+':
-                this->tokens.push_back(Token(TokenType::PLUS, "+"));
+                this->tokens.emplace_back(TokenType::PLUS, "+");
                 this->advance();
                 break;
             case '-':
-                this->tokens.push_back(Token(TokenType::MINUS, "-"));
+                this->tokens.emplace_back(TokenType::MINUS, "-");
                 this->advance();
                 break;
             case '*':
-                this->tokens.push_back(Token(TokenType::MUL, "*"));
+                this->tokens.emplace_back(TokenType::MUL, "*");
                 this->advance();
                 break;
             case '/':
-                this->tokens.push_back(Token(TokenType::DIV, "/"));
+                this->tokens.emplace_back(TokenType::DIV, "/");
                 this->advance();
                 break;
             case '(':
-                this->tokens.push_back(Token(TokenType::LPAREN, "("));
+                this->tokens.emplace_back(TokenType::LPAREN, "(");
                 this->advance();
                 break;
             case ')':
-                this->tokens.push_back(Token(TokenType::RPAREN, ")"));
+                this->tokens.emplace_back(TokenType::RPAREN, ")");
                 this->advance();
                 break;
             default:
