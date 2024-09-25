@@ -11,7 +11,7 @@ std::string Token::getValue() const {
 }
 
 std::string Token::toString() const {
-    return "Token(" + std::to_string(static_cast<int>(this->type)) + ", " + this->value + ")";
+    return std::format("Token({}, \"{}\", {})", TokenTypeString[static_cast<int>(this->type)], this->value, this->position.toString());
 }
 
 Position Token::getPosition() const {
