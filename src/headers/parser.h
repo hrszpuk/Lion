@@ -2,7 +2,7 @@
 #define PARSER_H
 #include <vector>
 
-#include "node.h"
+#include "nodes/node.h"
 #include "token.h"
 
 class Parser {
@@ -31,23 +31,23 @@ public:
     [[nodiscard]] const Token& peekNextToken() const;
 
     // Parsing statements
-    [[nodiscard]] Token parseStatement();
-    [[nodiscard]] Token parseVariableDeclaration();
-    [[nodiscard]] Token parseAssignment();
-    [[nodiscard]] Token parseIfStatement();
-    [[nodiscard]] Token parseElseStatement();
-    [[nodiscard]] Token parseExpressionStatement();
+    [[nodiscard]] Node parseStatement();
+    [[nodiscard]] Node parseVariableDeclaration();
+    [[nodiscard]] Node parseAssignment();
+    [[nodiscard]] Node parseIfStatement();
+    [[nodiscard]] Node parseElseStatement();
+    [[nodiscard]] Node parseExpressionStatement();
 
     // Parsing expressions
-    [[nodiscard]] Token parseExpression();     // General expression entry point
-    [[nodiscard]] Token parseLogicalOr();      // Handles ||
-    [[nodiscard]] Token parseLogicalAnd();     // Handles &&
-    [[nodiscard]] Token parseEquality();       // Handles ==, !=
-    [[nodiscard]] Token parseRelational();     // Handles >, <, >=, <=
-    [[nodiscard]] Token parseAddition();       // Handles +, -
-    [[nodiscard]] Token parseMultiplication(); // Handles *, /
-    [[nodiscard]] Token parseUnary();          // Handles !, - (unary minus)
-    [[nodiscard]] Token parsePrimary();        // Handles literals, variables, and parentheses
+    [[nodiscard]] Node parseExpression();     // General expression entry point
+    [[nodiscard]] Node parseLogicalOr();      // Handles ||
+    [[nodiscard]] Node parseLogicalAnd();     // Handles &&
+    [[nodiscard]] Node parseEquality();       // Handles ==, !=
+    [[nodiscard]] Node parseRelational();     // Handles >, <, >=, <=
+    [[nodiscard]] Node parseAddition();       // Handles +, -
+    [[nodiscard]] Node parseMultiplication(); // Handles *, /
+    [[nodiscard]] Node parseUnary();          // Handles !, - (unary minus)
+    [[nodiscard]] Node parsePrimary();        // Handles literals, variables, and parentheses
 };
 
 
