@@ -138,18 +138,18 @@ protected:
     std::string value;
     Position position;
 
-    static void check_args(const TokenType type, std::string value) {
+    static void checkArgs(const TokenType type, std::string value) {
         if (value.empty()) throw std::invalid_argument("empty string");
         if (type < TokenType::UNKNOWN || type > TokenType::EQUALS) throw std::invalid_argument("invalid token type");
     }
 
 public:
     explicit Token(const TokenType type, std::string value): type(type), value(value), position() {
-        check_args(type, value);
+        checkArgs(type, value);
     }
 
     explicit Token(const TokenType type, std::string value, Position pos): type(type), value(value), position(pos) {
-        check_args(type, value);
+        checkArgs(type, value);
     }
     Token() = default;
 
