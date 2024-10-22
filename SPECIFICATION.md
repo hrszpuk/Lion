@@ -89,41 +89,6 @@ input
 ### Identifiers
 All identifiers must start with a letter. Identifiers are alphanumeric. There is no limit in length.
 
-## Grammar Rules
-``` 
-<program>               = <statement>*
-<statement>             = <variable_declaration> | <if_statement> | <expression_statement>
-<variable_declaration>  = <let_keyword> <identifier> [":" <data_type>] <equals> <expression> ";"
-<if_statement>          = <if_keyword> <expression> <block> [<else_if_statement>* <else_statement>?]
-<else_if_statement>     = <else_if_keyword> <expression> <block>
-<else_statement>        = <else_keyword> <block>
-<expression_statement>  = <expression> ";"
-<expression>            = <or_expression>
-<or_expression>         = <and_expression> ( "||" <and_expression> )*
-<and_expression>        = <comparison_expression> ( "&&" <comparison_expression> )*
-<comparison_expression>  = <arithmetic_expression> ( <comparison_operator> <arithmetic_expression> )*
-<arithmetic_expression>  = <term> ( <arithmetic_operator> <term> )*
-<term>                  = <factor> ( <multiplicative_operator> <factor> )*
-<factor>                = <integer> | <string> | <boolean> | <identifier> | "(" <expression> ")"
-<arithmetic_operator>    = "+" | "-" 
-<multiplicative_operator> = "*" | "/"
-<comparison_operator>    = "==" | "!=" | ">" | "<" | ">=" | "<="
-<block>                 = "{" <statement>* "}"
-<identifier>            = [A-Za-z_][A-Za-z0-9_]*
-<data_type>            = "i32" | "u32" | "string" | "bool"
-<let_keyword>           = "let"
-<if_keyword>            = "if"
-<else_if_keyword>       = "else if"
-<else_keyword>          = "else"
-<print_keyword>         = "print"
-<input_keyword>         = "input"
-<equals>               = "="
-<string>                = "\"" ( ~["\\] | "\\" . )* "\""
-<integer>               = [0-9]+
-<boolean>               = "false" | "true"
-
-```
-
 ## Semantic Analysis
 
 ### Type checking rules
