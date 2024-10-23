@@ -10,7 +10,7 @@ protected:
     std::vector<Node> nodes;
     std::vector<Token> tokens;
     Token currentToken;
-    int pos; // token position
+    long unsigned int pos; // token position
 
 public:
     explicit Parser(std::vector<Token> tokens) : tokens(tokens) {
@@ -27,8 +27,8 @@ public:
     [[nodiscard]] std::vector<Node> parse();
 
     // Utilities
-    [[nodiscard]] Token nextToken();
-    [[nodiscard]] const Token& peekNextToken() const;
+    [[nodiscard]] std::optional<Token> nextToken();
+    [[nodiscard]] std::optional<Token> peekToken() const;
 
     // Parsing statements
     [[nodiscard]] Node parseStatement();
