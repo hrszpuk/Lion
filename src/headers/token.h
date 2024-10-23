@@ -4,6 +4,7 @@
 #include <span>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 enum class TokenType {
@@ -104,6 +105,21 @@ inline std::string TokenTypeString[] = {
     // Assignment operator
     "EQUALS"
 };
+
+inline const std::unordered_map<std::string, TokenType>& keywords() {
+    static const std::unordered_map<std::string, TokenType> m = {
+        {"let", TokenType::LET_KW},
+        {"print", TokenType::PRINT_KW},
+        {"input", TokenType::INPUT_KW},
+        {"if", TokenType::IF_KW},
+        {"else", TokenType::ELSE_KW},
+        {"string", TokenType::STRING_KW},
+        {"i32", TokenType::I32_KW},
+        {"u32", TokenType::U32_KW}
+    };
+    return m;
+}
+
 
 class Position {
 protected:
