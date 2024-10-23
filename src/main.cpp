@@ -20,14 +20,14 @@ int main(int argc, char *argv[]) {
                                std::istreambuf_iterator<char>());
 
         Lexer lexer(file_contents);
-        lexer.lex();
+        for (auto tokens = lexer.lex(); const auto &token : tokens) {
+            std::cout << token.toString() << std::endl;
+        }
 
         file.close();
     } catch (const std::ifstream::failure& e) {
         std::cerr << "Error: Exception occurred while reading file: " << e.what() << std::endl;
     }
-
-
 
     return 0;
 }
