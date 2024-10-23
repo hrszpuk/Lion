@@ -22,8 +22,8 @@ public:
     Node() = default;
     virtual ~Node() = default;
 
-    [[nodiscard]] virtual std::string toString() const {
-        return std::format("Node({}, {})", position.toString(), tokens);
+    [[nodiscard]] virtual std::string toString() {
+        return std::format("Node({}, {})", position.toString(), tokens.size());
     }
 
     [[nodiscard]] virtual Position getPosition() const {
