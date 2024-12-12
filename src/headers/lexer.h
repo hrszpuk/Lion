@@ -12,10 +12,12 @@ public:
     int pos;
     char currentChar;
 
-    Lexer(std::string text);
+    explicit Lexer(std::string text);
 
     std::vector<Token> lex();
     Token lexInteger();
+    Token lexString();
+    Token lexIdentifier();
     void advance();
     void skipWhitespace();
     void error();

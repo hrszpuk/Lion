@@ -11,7 +11,8 @@ Lexer::Lexer(std::string text) {
 
 std::vector<Token> Lexer::lex() {
     while (this->currentChar != '\0') {
-        if (this->currentChar == ' ') {
+        //std::cout << this->currentChar << " " << static_cast<int>(this->currentChar) << std::endl;
+        if (this->currentChar == ' ' || this->currentChar == '\n' || this->currentChar == '\t') {
             this->skipWhitespace();
             continue;
         }
@@ -19,31 +20,43 @@ std::vector<Token> Lexer::lex() {
             this->tokens.push_back(this->lexInteger());
             continue;
         }
+        if (isalpha(this->currentChar)) {
+            this->tokens.push_back(this->lexIdentifier());
+            continue;
+        }
+        if (this->currentChar == '"') {
+            this->tokens.push_back(this->lexString());
+            continue;
+        }
         switch (this->currentChar) {
             case '+':
-                this->tokens.push_back(Token(TokenType::PLUS, "+"));
+                this->tokens.emplace_back(TokenType::PLUS, "+");
                 this->advance();
                 break;
             case '-':
-                this->tokens.push_back(Token(TokenType::MINUS, "-"));
+                this->tokens.emplace_back(TokenType::MINUS, "-");
                 this->advance();
                 break;
             case '*':
-                this->tokens.push_back(Token(TokenType::MUL, "*"));
+                this->tokens.emplace_back(TokenType::MUL, "*");
                 this->advance();
                 break;
             case '/':
-                this->tokens.push_back(Token(TokenType::DIV, "/"));
+                this->tokens.emplace_back(TokenType::DIV, "/");
                 this->advance();
                 break;
             case '(':
-                this->tokens.push_back(Token(TokenType::LPAREN, "("));
+                this->tokens.emplace_back(TokenType::LPAREN, "(");
                 this->advance();
                 break;
             case ')':
-                this->tokens.push_back(Token(TokenType::RPAREN, ")"));
+                this->tokens.emplace_back(TokenType::RPAREN, ")");
                 this->advance();
                 break;
+            case '=':
+                this->tokens.emplace_back(TokenType::EQUALS, "=");
+                this->advance();
+            break;
             default:
                 this->error();
                 break;
@@ -53,12 +66,32 @@ std::vector<Token> Lexer::lex() {
 }
 
 Token Lexer::lexInteger() {
-    std::string result = "";
+    std::string result;
     while (this->currentChar != '\0' && isdigit(this->currentChar)) {
         result += this->currentChar;
         this->advance();
     }
-    return Token(TokenType::INTEGER, result);
+    return Token(TokenType::INTEGER_LITERAL, result);
+}
+
+Token Lexer::lexString() {
+    std::string result;
+    this->advance(); // Skip first "
+    while (this->currentChar != '"') {
+        result += this->currentChar;
+        this->advance();
+    }
+    this->advance(); // Skip second "
+    return Token(TokenType::STRING_LITERAL, result);
+}
+
+Token Lexer::lexIdentifier() {
+    std::string result;
+    while (isalnum(this->currentChar) || this->currentChar == '_') {
+        result += this->currentChar;
+        this->advance();
+    }
+    return Token(TokenType::IDENTIFIER, result);
 }
 
 void Lexer::advance() {
@@ -71,12 +104,12 @@ void Lexer::advance() {
 }
 
 void Lexer::skipWhitespace() {
-    if (this->currentChar == ' ') {
+    while (this->currentChar == ' ' || this->currentChar == '\n' || this->currentChar == '\t') {
         this->advance();
     }
 }
 
 void Lexer::error() {
-    std::cout << "Invalid character" << std::endl;
-    this->pos++;
+    std::cout << "Invalid character: " << this->text[this->pos] << std::endl;
+    this->advance();
 }
